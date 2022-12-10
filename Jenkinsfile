@@ -1,38 +1,40 @@
-def gv
-
 pipeline {
-    agent any
-    stages {
-        stage("init") {
-            steps {
-                script {
-                    gv = load "script.groovy"
-                }
-            }
-        }
-        stage("build jar") {
-            steps {
-                script {
-                    echo "building jar"
-                    //gv.buildJar()
-                }
-            }
-        }
-        stage("build image") {
-            steps {
-                script {
-                    echo "building image"
-                    //gv.buildImage()
-                }
-            }
-        }
-        stage("deploy") {
-            steps {
-                script {
-                    echo "deploying"
-                    //gv.deployApp()
-                }
-            }
-        }
-    }   
+	agent any
+	tools {												
+		maven	'Maven'						
+		
+	}
+	stages{
+		stage("build jar") {
+			steps {
+				script {
+					echo "Building application"
+					sh "mvn package"
+				}
+			}
+		}
+		
+		stage("build image") {
+			steps {
+				script (
+					echo "Building application"
+					withCredentials ([usernamePassword(credentialsID: 'smyndloh-DockerHub', usernameVariable: USER, passwordVariable: PWD)]) {
+						sh "docker build -t smyndloh/containerz:1.1.0 ."
+						sh "echo $PWD | docker login -u $USER --password-stdin"
+						sh "docker push smyndloh/containerz:1.1.0"									
+					}
+				}
+			
+			}
+			
+		stage("deploy") {
+			steps {
+				script {
+					echo "Deployed application"					  
+				}			
+			}		
+		}
+
+
+	}			
 }
