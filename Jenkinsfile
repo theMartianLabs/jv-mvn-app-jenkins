@@ -3,10 +3,7 @@ pipeline {
 	tools {												
 		maven	'Maven'			
 	}
-    environment {
-        DOCKER_CREDS = credentials('smyndloh-DockerHub')
-    }
-
+    
 	stages{
 		stage("build jar") {
 			steps {
@@ -21,7 +18,11 @@ pipeline {
 			steps {
 				script {
 					echo "Building image"
-				    	echo 'Login Completed' 				    	
+					withCredentials ([usernamePassword(credentialsID: 'smyndloh-DockerHub', usernameVariable: 'USER', passwordVariable: 'PWD')]) {
+						sh "docker build -t smyndloh/containerz:1.1.0 . "
+						sh "echo $PWD | docker login -u $USER --password-stdin"
+						sh "docker push smyndloh/containerz:1.1.0"									
+					}
 				}
 			
 			}
