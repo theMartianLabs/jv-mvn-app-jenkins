@@ -17,7 +17,7 @@ pipeline {
 		stage("build image") {
 			steps {
 				script (
-					echo "Building application"
+					echo "Building image"
 					withCredentials ([usernamePassword(credentialsID: 'smyndloh-DockerHub', usernameVariable: 'USER', passwordVariable: 'PWD')]) {
 						sh "docker build -t smyndloh/containerz:1.1.0 . "
 						sh "echo $PWD | docker login -u $USER --password-stdin"
