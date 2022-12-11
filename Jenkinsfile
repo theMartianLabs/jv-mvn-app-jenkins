@@ -14,13 +14,13 @@ pipeline {
 		stage("build image") {
 			steps {
 				echo "Building image"
-				}
-			
 			}
+			
+		}
 			
 		stage("deploy") {
 			steps {
-					echo "Deployed application"
+			       echo "Deployed application"
 			}		
 		}
 
