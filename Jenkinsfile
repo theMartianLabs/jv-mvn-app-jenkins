@@ -21,10 +21,10 @@ pipeline {
 			steps {
 				script (
 					echo "Building image"					
-                    sh "docker build -t smyndloh/containerz:1.1.0 . "
-                    sh "echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin"
-                    echo 'Login Completed' 
-                    sh "docker push smyndloh/containerz:1.1.0"
+                    			sh "docker build -t smyndloh/containerz:1.1.0 . "
+				    	sh "echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin"
+				    	echo 'Login Completed' 
+				    	sh "docker push smyndloh/containerz:1.1.0"
 				}
 			
 			}
