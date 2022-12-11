@@ -7,31 +7,20 @@ pipeline {
 	stages{
 		stage("build jar") {
 			steps {
-				script {
-					echo "Building application"
-					sh "mvn package"
-				}
+				echo "Building application"
 			}
 		}
 		
 		stage("build image") {
 			steps {
-				script (
-					echo "Building application"
-					withCredentials ([usernamePassword(credentialsID: 'smyndloh-DockerHub', usernameVariable: USER, passwordVariable: PWD)]) {
-						sh "docker build -t smyndloh/containerz:1.1.0 ."
-						sh "echo $PWD | docker login -u $USER --password-stdin"
-						sh "docker push smyndloh/containerz:1.1.0"									
-					}
+				echo "Building image"
 				}
 			
 			}
 			
 		stage("deploy") {
 			steps {
-				script {
-					echo "Deployed application"					  
-				}			
+					echo "Deployed application"
 			}		
 		}
 
