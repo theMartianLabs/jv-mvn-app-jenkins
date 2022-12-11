@@ -19,9 +19,8 @@ pipeline {
 		
 		stage("build image") {
 			steps {
-				script (
-					echo "Building image"					
-                    			sh "docker build -t smyndloh/containerz:1.1.0 . "
+				script {
+					echo "Building image"
 				    	echo 'Login Completed' 				    	
 				}
 			
